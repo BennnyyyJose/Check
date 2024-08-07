@@ -1,35 +1,46 @@
 pipeline {
-  environment {
-    registry = "benniyamjose/cyberfrat-devsecops"
-    registryCredential = "Jenkinsdocker"
-    dockerImage = ''
-  }
-  
-  agent any
-  
-  stages {
-    stage('Build Docker Image') {
-      steps {
-        script {
-          dockerImage = docker.build(registry + ":${BUILD_NUMBER}")
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
         }
-      }
+        stage('Build') {
+            steps {
+                script {
+                    def app = docker.build("your_dockerhub_username/checkmate")
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                // Add your test steps here, for example:
+                sh 'python -m unittest discover -s tests'
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here, for example:
+                sh 'docker-compose up -d'
+            }
+        }
     }
 
-    stage('Push to DockerHub') {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push()
-          }
+    post {
+        always {
+            cleanWs()
         }
-      }
     }
-
-    stage('Test Run') {
-      steps {
-        sh 'docker run -d ' + registry + ":${BUILD_NUMBER}"
-      }
-    }
-  }
 }
