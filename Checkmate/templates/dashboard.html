@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<p>Welcome to Checkmate, {{ session['username'] }}</p>
+<p><a href="/add_project">Add a New Project</a></p>
+{% endblock %}
+
+

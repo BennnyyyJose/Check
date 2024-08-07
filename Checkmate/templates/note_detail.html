@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note[2] }}{% endblock %}
+
+{% block content %}
+<h1>{{ note[2] }}</h1>
+<form action="{{ url_for('save_note') }}" method="POST" onsubmit="return showSaveMessage();">
+    <input type="hidden" name="note_id" value="{{ note[0] }}">
+    <div class="form-group">
+        <label for="note">Note Content:</label>
+        <textarea name="note" id="note" rows="10" class="form-control" style="resize:both;">{{ note[3] }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="font-size">Font Size:</label>
+        <select id="font-size" class="form-control">
+            <option value="16px">Normal</option>
+            <option value="20px">Large</option>
+            <option value="24px">Extra Large</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="font-weight">Font Style:</label>
+        <select id="font-weight" class="form-control">
+            <option value="normal">Normal</option>
+            <option value="bold">Bold</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-secondary" onclick="addBulletPoints()">Add Bullet Points</button>
+        <button type="button" class="btn btn-secondary" onclick="addNumbering()">Add Numbering</button>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save Note</button>
+        <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-secondary" onclick="exportToWord()">Export to Word</button>
+        <button type="button" class="btn btn-secondary" onclick="exportToExcel()">Export to Excel</button>
+    </div>
+</form>
+
+<script>
+document.getElementById('font-size').addEventListener('change', function() {
+    document.execCommand('fontSize', false, this.value);
+});
+
+document.getElementById('font-weight').addEventListener('change', function() {
+    document.execCommand('bold', false, this.value === 'bold');
+});
+
+function addBulletPoints() {
+    document.execCommand('insertUnorderedList');
+}
+
+function addNumbering() {
+    document.execCommand('insertOrderedList');
+}
+
+function showSaveMessage() {
+    alert("Note saved successfully!");
+    return true; // Allow form submission to continue
+}
+
+function exportToWord() {
+    alert("Export to Word functionality is not implemented yet.");
+}
+
+function exportToExcel() {
+    let data = [[document.getElementById('note').value]];
+    let ws = XLSX.utils.aoa_to_sheet(data);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "note.xlsx");
+}
+</script>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+{% endblock %}

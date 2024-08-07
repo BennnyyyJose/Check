@@ -1,0 +1,166 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navbar and Footer */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-item a {
+    font-size: 1.1rem;
+    color: #333 !important;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+}
+
+/* Card Styles */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Form Styles */
+.form-group {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem; /* Adjust font size for readability */
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent header wrapping */
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table .action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.table .action-buttons button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.table .action-buttons .btn-edit {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 3px;
+}
+
+.table .action-buttons .btn-save {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 3px;
+}
+
+.table .action-buttons .btn-edit:hover, .table .action-buttons .btn-save:hover {
+    opacity: 0.8;
+}
+
+.table td input, .table td select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Header Styling */
+h1 {
+    font-size: 1.5rem; /* Adjust font size for header */
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table th, .table td {
+        font-size: 0.8rem; /* Adjust font size for smaller screens */
+    }
+
+    .table .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

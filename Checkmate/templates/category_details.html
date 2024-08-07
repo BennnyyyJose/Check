@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Category Details{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+    <h1>Testing Category: {{ category_name }}</h1>
+    <form action="{{ url_for('update_test_case') }}" method="POST">
+        <input type="hidden" name="category_name" value="{{ category_name }}">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>WSTG-ID</th>
+                    <th>Test Name</th>
+                    <th>Objectives</th>
+                    <th>Tools</th>
+                    <th>OWASP Top 10</th>
+                    <th>CWE</th>
+                    <th>Result</th>
+                    <th>Affected Item</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test_case in test_cases %}
+                <tr>
+                    <td>{{ test_case[0] }}</td>
+                    <td>{{ test_case[2] }}</td>
+                    <td>{{ test_case[3] }}</td>
+                    <td>{{ test_case[4] }}</td>
+                    <td>{{ test_case[5] }}</td>
+                    <td>{{ test_case[6] }}</td>
+                    <td>{{ test_case[7] }}</td>
+                    <td>
+                        <input type="hidden" name="test_case_id" value="{{ test_case[0] }}">
+                        <input type="text" name="result" value="{{ test_case[8] }}" class="form-control" readonly>
+                    </td>
+                    <td><input type="text" name="affected_item_url" value="{{ test_case[9] }}" class="form-control" readonly></td>
+                    <td>
+                        <select name="status" class="form-control" readonly>
+                            <option value="Open" {% if test_case[10] == 'Open' %}selected{% endif %}>Open</option>
+                            <option value="In Progress" {% if test_case[10] == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Closed" {% if test_case[10] == 'Closed' %}selected{% endif %}>Closed</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="enableEditing(this)">Edit</button>
+                            <button type="submit" name="save" value="{{ test_case[0] }}" class="btn btn-success btn-sm">Save</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+function enableEditing(button) {
+    let row = button.closest('tr');
+    row.querySelectorAll('input, select').forEach(function(input) {
+        input.removeAttribute('readonly');
+    });
+}
+</script>
+{% endblock %}

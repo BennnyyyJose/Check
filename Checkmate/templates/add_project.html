@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Project</title>
+</head>
+<body>
+    <h2>Add Project</h2>
+    <form action="/add_project" method="post">
+        <label for="project_name">Project Name:</label>
+        <input type="text" id="project_name" name="project_name" required><br><br>
+        <label for="project_description">Project Description:</label><br>
+        <textarea id="project_description" name="project_description" rows="4" cols="50" required></textarea><br><br>
+        <input type="submit" value="Save Project">
+    </form>
+</body>
+</html>
+{% extends "base.html" %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note['topic'] }}{% endblock %}
+
+{% block content %}
+<h1>{{ note['topic'] }}</h1>
+
+{% if message %}
+<div class="alert alert-success" role="alert">
+    {{ message }}
+</div>
+{% endif %}
+
+<form action="{{ url_for('save_note') }}" method="post" onsubmit="return showSaveMessage();">
+    <input type="hidden" name="note_id" value="{{ note['id'] }}">
+    <textarea name="note_content" rows="10" cols="50">{{ note['note'] }}</textarea><br>
+    <button type="submit" class="btn btn-primary">Save Note</button>
+    <a href="{{ url_for('learning_notes') }}" class="btn btn-secondary">Back</a>
+</form>
+
+<script>
+function showSaveMessage() {
+    alert("Note saved successfully!");
+    return true; // Allow form submission to continue
+}
+</script>
+{% endblock %}
