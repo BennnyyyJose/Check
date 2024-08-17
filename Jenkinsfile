@@ -17,10 +17,9 @@ pipeline {
         stage('Run TruffleHog Scan') {
             steps {
                 script {
-                    // Activate virtual environment, run TruffleHog, and save the results to a file
+                    // Use bash to activate the virtual environment and run TruffleHog
                     sh '''
-                        source /home/benny/code1/Check/trufflehog-env/bin/activate
-                        trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json
+                        bash -c "source /home/benny/code1/Check/trufflehog-env/bin/activate && trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json"
                     '''
                 }
             }
