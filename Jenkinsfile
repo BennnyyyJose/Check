@@ -16,7 +16,7 @@ pipeline {
 
                     // Run TruffleHog using Docker and save the output to trufflehog.json
                     sh '''
-                        docker run --rm dxa4481/trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json
+                        docker run dxa4481/trufflehog https://github.com/BennnyyyJose/Check.git  > trufflehog.json
                     '''
                     
                     // Display the contents of trufflehog.json
