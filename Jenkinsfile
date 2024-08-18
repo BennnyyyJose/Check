@@ -10,12 +10,21 @@ pipeline {
     stages {
         stage('Run TruffleHog Scan') {
             steps {
-                sh "rm -rf trufflehog.json || true"
-                sh 'docker run dxa4481/trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json'
-                sh 'cat trufflehog.json'
+                script {
+                    // Remove any existing trufflehog.json file
+                    sh "rm -rf trufflehog.json || true"
+
+                    // Run TruffleHog using Docker and save the output to trufflehog.json
+                    sh '''
+                        docker run --rm dxa4481/trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json
+                    '''
+                    
+                    // Display the contents of trufflehog.json
+                    sh 'cat trufflehog.json'
+                }
             }
         }
-
+        
         stage('Checkout') {
             steps {
                 checkout scm
@@ -25,7 +34,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build(registry + ":$BUILD_NUMBER")
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                 }
             }
         }
