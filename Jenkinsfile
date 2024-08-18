@@ -41,7 +41,7 @@ pipeline {
 
         stage('Test Run') {
             steps {
-                sh 'docker run -d benniyamjose/cyberfrat-devsecops:$BUILD_NUMBER'
+                sh 'docker run -d benniyamjose/check:$BUILD_NUMBER'
             }
         }
     }
