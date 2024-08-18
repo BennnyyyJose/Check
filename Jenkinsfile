@@ -15,10 +15,7 @@ pipeline {
                 sh 'cat trufflehog.json'
             }
         }
-    }
-}
 
-    stages {
         stage('Checkout') {
             steps {
                 checkout scm
@@ -28,7 +25,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build(registry + ":$BUILD_NUMBER")
                 }
             }
         }
@@ -36,7 +33,7 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('', registryCredential ) {
+                    docker.withRegistry('', registryCredential) {
                         dockerImage.push()
                     }
                 }
