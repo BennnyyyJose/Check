@@ -8,6 +8,17 @@ pipeline {
     agent any
     
     stages {
+        stage('Run TruffleHog Scan') {
+            steps {
+                sh "rm -rf trufflehog.json || true"
+                sh 'docker run dxa4481/trufflehog --json https://github.com/BennnyyyJose/Check.git > trufflehog.json'
+                sh 'cat trufflehog.json'
+            }
+        }
+    }
+}
+
+    stages {
         stage('Checkout') {
             steps {
                 checkout scm
