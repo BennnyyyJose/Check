@@ -10,7 +10,6 @@ pipeline {
     stages {
     stage('Check for Secrets'){
       steps {
-        sh "pip3 install -r requirements.txt"
         sh "rm -rf trufflehog.json || true"
         sh "docker run dxa4481/trufflehog:latest --json https://github.com/BennnyyyJose/Check.git > trufflehog.json || true"
         sh "cat trufflehog.json"
