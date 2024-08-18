@@ -8,23 +8,14 @@ pipeline {
     agent any
     
     stages {
-        stage('Run TruffleHog Scan') {
-            steps {
-                script {
-                    // Remove any existing trufflehog.json file
-                    sh "rm -rf trufflehog.json || true"
-
-                    // Run TruffleHog using Docker and save the output to trufflehog.json
-                    sh '''
-                        docker run dxa4481/trufflehog https://github.com/BennnyyyJose/Check.git  > trufflehog.json
-                    '''
-                    
-                    // Display the contents of trufflehog.json
-                    sh 'cat trufflehog.json'
-                }
-            }
-        }
-        
+    stage('Check for Secrets'){
+      steps {
+        sh "pip3 install -r requirements.txt"
+        sh "rm -rf trufflehog.json || true"
+        sh "docker run dxa4481/trufflehog:latest --json https://github.com/BennnyyyJose/Check.git > trufflehog.json || true"
+        sh "cat trufflehog.json"
+      }
+    }
         stage('Checkout') {
             steps {
                 checkout scm
