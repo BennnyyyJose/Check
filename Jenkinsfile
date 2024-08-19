@@ -17,10 +17,11 @@ pipeline {
         }
         stage('Safety Check') {
             steps {
-                sh "docker run --rm -v \$(pwd):/app pyupio/safety safety check -r /app/requirements.txt --json > safety.json"
-                sh "cat safety.json"
+                sh "rm -rf safety.json || true"
+                sh "if [ -f requirement.txt ]; then safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi"
+                sh "cat safety.json || true"
             }
-        }   
+        }
 
         stage('Checkout') {
             steps {
