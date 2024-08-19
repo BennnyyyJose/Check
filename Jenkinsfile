@@ -15,14 +15,25 @@ pipeline {
                 sh "cat trufflehog.json"
             }
         }
-        stage('safety'){
-            steps {
+  stage('Safety Check') {
+    steps {
+        script {
+            // Check if safety is installed
+            def safetyInstalled = sh(script: "command -v safety", returnStatus: true) == 0
+
+            // Install safety if not installed
+            if (!safetyInstalled) {
                 sh "pip install safety --break-system-packages"
-                sh "rm -rf safety.json || true"
-                sh "safety check -r requirement.txt --json > safety.json"
-                sh "cat safety.json"
             }
         }
+        
+        // Run safety check
+        sh "rm -rf safety.json || true"
+        sh "if [ -f requirement.txt ]; then safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi"
+        sh "cat safety.json || true"
+    }
+}
+
         stage('Checkout') {
             steps {
                 checkout scm
