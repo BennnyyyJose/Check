@@ -8,7 +8,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Check for Secrets'){
+        stage('Check for Secrets') {
             steps {
                 sh "rm -rf trufflehog.json || true"
                 sh "docker run dxa4481/trufflehog:latest --json https://github.com/BennnyyyJose/Check.git > trufflehog.json || true"
@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Safety Check') {
             steps {
-                sh "docker run --rm -v $(pwd):/app pyupio/safety safety check -r /app/requirements.txt --json > safety.json"
+                sh "docker run --rm -v \$(pwd):/app pyupio/safety safety check -r /app/requirements.txt --json > safety.json"
                 sh "cat safety.json"
             }
         }   
