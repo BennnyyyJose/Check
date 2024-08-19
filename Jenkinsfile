@@ -15,15 +15,17 @@ pipeline {
                 sh "cat trufflehog.json"
             }
         }
+        
         stage('safety'){
             steps {
                 sh "pipx install safety"
+                // Adding the correct path to the PATH environment variable
+                sh "export PATH=\$PATH:/root/.local/bin"
                 sh "rm -rf safety.json || true"
                 sh "safety check -r requirements.txt --json > safety.json || true"
                 sh "cat safety.json"
             }
         }
-        
         stage('Checkout') {
             steps {
                 checkout scm
@@ -56,8 +58,8 @@ pipeline {
     }
     
     post {
-        always {
-            archiveArtifacts artifacts: 'trufflehog.json', allowEmptyArchive: true
-        }
+      always {
+            archiveArtifacts artifacts: 'trufflehog.json,safety.json', allowEmptyArchive: true
     }
+}
 }
