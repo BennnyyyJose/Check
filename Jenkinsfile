@@ -15,7 +15,14 @@ pipeline {
                 sh "cat trufflehog.json"
             }
         }
-
+        stage('safety'){
+            steps {
+                sh "pip install safety --break-system-packages"
+                sh "rm -rf safety.json || true"
+                sh "safety check -r requirement.txt --json > safety.json"
+                sh "cat safety.json"
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
