@@ -18,7 +18,7 @@ pipeline {
         stage('Safety Check') {
             steps {
                 sh "rm -rf safety.json || true"
-                sh "if [ -f requirement.txt ]; then safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi"
+                sh "if [ -f requirements.txt ]; then safety check -r requirements.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi"
                 sh "cat safety.json || true"
             }
         }
