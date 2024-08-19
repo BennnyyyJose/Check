@@ -15,19 +15,26 @@ pipeline {
                 sh "cat trufflehog.json"
             }
         }
+        stage('Setup Virtualenv and Install Safety') {
+            steps {
+                sh """
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install safety
+                """
+            }
+        }
         stage('Safety Check') {
             steps {
-                script {
-                    def safetyInstalled = sh(script: "/usr/bin/pip show safety", returnStatus: true) == 0
-                    if (!safetyInstalled) {
-                        sh "/usr/bin/pip install safety --break-system-packages"
-                    }
-                }
-                sh "rm -rf safety.json || true"
-                sh "if [ -f requirement.txt ]; then /usr/bin/safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi"
-                sh "cat safety.json || true"
+                sh """
+                . venv/bin/activate
+                rm -rf safety.json || true
+                if [ -f requirement.txt ]; then safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi
+                cat safety.json || true
+                """
             }
-        }        
+        }      
 
         stage('Checkout') {
             steps {
