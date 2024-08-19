@@ -17,7 +17,7 @@ pipeline {
         }
         stage('safety'){
             steps {
-                sh "pip install safety --break-system-packages"
+                sh "pipx install safety"
                 sh "rm -rf safety.json || true"
                 sh "safety check -r requirements.txt --json > safety.json || true"
                 sh "cat safety.json"
