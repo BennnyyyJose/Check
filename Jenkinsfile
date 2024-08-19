@@ -15,26 +15,12 @@ pipeline {
                 sh "cat trufflehog.json"
             }
         }
-        stage('Setup Virtualenv and Install Safety') {
-            steps {
-                sh """
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install safety
-                """
-            }
-        }
         stage('Safety Check') {
             steps {
-                sh """
-                . venv/bin/activate
-                rm -rf safety.json || true
-                if [ -f requirement.txt ]; then safety check -r requirement.txt --json > safety.json || true; else echo 'No requirement.txt found, skipping safety check'; fi
-                cat safety.json || true
-                """
+                sh "docker run --rm -v $(pwd):/app pyupio/safety safety check -r /app/requirements.txt --json > safety.json"
+                sh "cat safety.json"
             }
-        }      
+        }   
 
         stage('Checkout') {
             steps {
